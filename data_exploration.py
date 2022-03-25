@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates
+from pandas.api.types import CategoricalDtype
+from joypy import joyplot
 
 
 bakery = pd.read_csv('preprocessed_BreadBasket_DMS.csv')
@@ -21,8 +23,24 @@ def time_function(x):
 
 bakery['Time_of_day'] = bakery['Time'].apply(time_function)
 
+# unique products count
+print(f"Unique products {len(bakery['Item'].unique())}")
+
+# Top 5 popular items
+bakery['Item'].value_counts().head(5).plot(kind='bar', title='Top 5 items',
+                                           figsize=(10,10)).set(ylabel='Counts')
+plt.xticks(rotation=0)
+plt.show()
+
+# SALES PLOTS
+
+# Add new day column
+bakery['Date'] = pd.to_datetime(bakery['Date'])
+bakery['day'] = bakery['Date'].dt.dayofweek
+bakery['day_name'] = bakery['Date'].dt.day_name()
+
 # sales by each time of the day
-bakery['Time_of_day'].value_counts().plot(kind='bar', figsize=(10,10))
+bakery['Time_of_day'].value_counts().plot(kind='bar', figsize=(10, 10))
 plt.ylabel('Counts')
 plt.title('Number of purchases at each time of the day')
 plt.xticks(rotation=0)
@@ -30,15 +48,16 @@ plt.show()
 
 # sales by hour
 (bakery.groupby('Time').agg({'Item': lambda item: item.count()})
-       .plot(kind='bar', figsize=(10,5), legend=False, xlabel='Hour', ylabel='Count', title='Sales by hour'))
+       .plot(kind='bar', figsize=(10, 5), legend=False, xlabel='Hour', ylabel='Count', title='Sales by hour'))
 
 plt.xticks(rotation=0)
 plt.show()
 
-print(f"Unique products {len(bakery['Item'].unique())}")
-
-# Top 5 items
-bakery['Item'].value_counts().head(5).plot(kind='bar', title='Top 5 items',
-                                           figsize=(10,10)).set(ylabel='Counts')
+# sales by weekdays
+bakery[['day', 'Transaction', 'day_name']].groupby(['day', 'day_name']).count().sort_index().plot(kind='bar',
+                                                                                                  xlabel='Day',
+                                                                                                  ylabel='Items',
+                                                                                                  title='Sales by weekdays')
 plt.xticks(rotation=0)
 plt.show()
+
