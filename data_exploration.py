@@ -61,3 +61,9 @@ bakery[['day', 'Transaction', 'day_name']].groupby(['day', 'day_name']).count().
 plt.xticks(rotation=0)
 plt.show()
 
+# unique transactions per weekday
+bakery.groupby(['day', 'day_name']).agg({'Transaction': pd.Series.nunique}).plot(kind='bar',
+                                                                             xlabel='Day',
+                                                                             ylabel='Transactions',
+                                                                             title='Sales by weekdays')
+plt.show()
