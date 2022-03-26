@@ -1,9 +1,5 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.dates
-from pandas.api.types import CategoricalDtype
-from joypy import joyplot
 
 
 bakery = pd.read_csv('preprocessed_BreadBasket_DMS.csv')
@@ -63,7 +59,7 @@ plt.show()
 
 # unique transactions per weekday
 bakery.groupby(['day', 'day_name']).agg({'Transaction': pd.Series.nunique}).plot(kind='bar',
-                                                                             xlabel='Day',
-                                                                             ylabel='Transactions',
-                                                                             title='Sales by weekdays')
+                                                                                 xlabel='Day',
+                                                                                 ylabel='Transactions',
+                                                                                 title='Unique transactions per weekday')
 plt.show()
