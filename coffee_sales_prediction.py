@@ -79,8 +79,8 @@ predicted_coffe_sales = scaler.inverse_transform(predicted_coffe_sales)
 # We will compare Predicted Coffe Sales and Real Coffee Sales
 real_coffe_sales = test.values
 
-plt.plot(real_coffe_sales, color = 'red', label = 'Real Coffe Sales')
-plt.plot(predicted_coffe_sales, color = 'blue', label = 'Predicted Coffe Sales')
+plt.plot(real_coffe_sales, color = 'red', label = 'Real Coffee Sales')
+plt.plot(predicted_coffe_sales, color = 'blue', label = 'Predicted Coffee Sales')
 plt.title('Coffee Sales Prediction For Last Month')
 plt.xlabel('Days')
 plt.ylabel('Coffee Sale per Day')
